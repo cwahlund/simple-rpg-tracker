@@ -46,7 +46,7 @@ public class PlayCharacter {
 	@ToString.Exclude
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(
-			name = "character_classes",
+			name = "play_character_classes",
 			joinColumns = @JoinColumn(name = "character_id"),
 			inverseJoinColumns = @JoinColumn(name = "class_id")
 	)

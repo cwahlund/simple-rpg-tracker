@@ -23,6 +23,6 @@ public class Player {
 	private String phone;
 	private String email;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<PlayCharacter> characters = new HashSet<>();
 }

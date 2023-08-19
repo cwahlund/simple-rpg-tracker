@@ -1,5 +1,7 @@
 package simple.rpg.tracker.service;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,17 @@ public class RpgTrackerService {
 		Player dbPlayer = playerDao.save(player);
 		
 		return new PlayerData(dbPlayer);
+	}
+
+	@Transactional(readOnly = true)
+	public PlayerData retrievePlayerById(Long playerId) {
+		Player player = findPlayerById(playerId);
+		return new PlayerData(player);
+	}
+	
+	public Player findPlayerById(Long playerId) {
+		return playerDao.findById(playerId)
+				.orElseThrow(() -> new NoSuchElementException("Player with ID=" + playerId + " does not exist."));
 	}
 
 }

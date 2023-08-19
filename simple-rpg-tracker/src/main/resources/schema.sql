@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS character_classes;
+DROP TABLE IF EXISTS play_character_classes;
 DROP TABLE IF EXISTS classes;
 DROP TABLE IF EXISTS play_character;
 DROP TABLE IF EXISTS player;
@@ -14,7 +14,7 @@ CREATE TABLE player (
 
 CREATE TABLE play_character (
 	character_id int NOT NULL AUTO_INCREMENT,
-	player_id int NULL,
+	player_id int NOT NULL,
 	name VARCHAR(256) NOT NULL,
 	race VARCHAR(64) NOT NULL,
 	age int,
@@ -34,7 +34,7 @@ CREATE TABLE classes (
 	PRIMARY KEY (class_id)
 );
 
-CREATE TABLE character_classes (
+CREATE TABLE play_character_classes (
 	character_id int NOT NULL,
 	class_id int NOT NULL,
 	FOREIGN KEY (character_id) REFERENCES play_character (character_id) ON DELETE CASCADE,

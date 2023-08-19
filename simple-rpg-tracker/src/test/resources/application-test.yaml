@@ -1,0 +1,4 @@
+spring:
+   datasource:
+      url: jdbc:h2:mem:simple_rpg_tracker;MODE=MYSQL
+         
