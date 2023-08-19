@@ -1,5 +1,7 @@
 package simple.rpg.tracker.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,5 +34,11 @@ public class RpgTrackerController {
 	public PlayerData retrievePlayerById(@PathVariable Long playerId) {
 		log.info("Retrieving player with ID={}", playerId);
 		return rpgTrackerService.retrievePlayerById(playerId);
+	}
+	
+	@GetMapping("/player")
+	public List<PlayerData> retrieveAllPlayers() {
+		log.info("Retrieving all players");
+		return rpgTrackerService.retrieveAllPlayers();
 	}
 }

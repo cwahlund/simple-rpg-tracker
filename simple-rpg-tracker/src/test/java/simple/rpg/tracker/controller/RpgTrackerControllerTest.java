@@ -2,6 +2,8 @@ package simple.rpg.tracker.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -44,5 +46,16 @@ class RpgTrackerControllerTest extends RpgTrackerTestSupport {
 		// Then: the actual player is equal to the expected player.
 		assertThat(actual).isEqualTo(expected);
 	}
-
+	
+	@Test
+	void testRetrieveAllLocations() {
+		// Given: Two locations
+		List<PlayerData> expected = insertTwoLocations();
+		
+		// When: all locations are retrieved
+		List<PlayerData> actual = retrieveAllLocations();
+		
+		// Then: the retrieved locations are the same as expected.
+		assertThat(actual).isEqualTo(expected);
+	}
 }

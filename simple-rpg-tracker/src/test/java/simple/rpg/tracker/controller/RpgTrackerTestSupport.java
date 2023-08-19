@@ -1,5 +1,7 @@
 package simple.rpg.tracker.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
@@ -54,5 +56,16 @@ public class RpgTrackerTestSupport {
 
 	protected PlayerData retrievePlayerById(Long playerId) {
 		return rpgTrackerController.retrievePlayerById(playerId);
+	}
+	
+	protected List<PlayerData> retrieveAllLocations() {
+		return rpgTrackerController.retrieveAllPlayers();
+	}
+
+	protected List<PlayerData> insertTwoLocations() {
+		PlayerData player1 = insertPlayer(buildInsertPlayer(1));
+		PlayerData player2 = insertPlayer(buildInsertPlayer(2));
+		
+		return List.of(player1, player2);
 	}
 }
