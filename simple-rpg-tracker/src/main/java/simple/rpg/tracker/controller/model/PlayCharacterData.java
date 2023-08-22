@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import simple.rpg.tracker.entity.Classes;
 import simple.rpg.tracker.entity.PlayCharacter;
+import simple.rpg.tracker.entity.Player;
 
 @Data
 @NoArgsConstructor
@@ -20,10 +21,13 @@ public class PlayCharacterData {
 	private Long experiencePoints;
 	private int hitPoints;
 	
+	Player player;
+	
 	private Set<ClassesData> classes = new HashSet<>();
 	
 	public PlayCharacterData (PlayCharacter character) {
 		this.characterId = character.getCharacterId();
+		this.player = character.getPlayer();
 		this.name = character.getName();
 		this.race = character.getRace();
 		this.age = character.getAge();
@@ -40,6 +44,7 @@ public class PlayCharacterData {
 		PlayCharacter character = new PlayCharacter();
 		
 		character.setCharacterId(characterId);
+		character.setPlayer(player);
 		character.setName(name);
 		character.setRace(race);
 		character.setAge(age);

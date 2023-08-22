@@ -1,0 +1,14 @@
+[
+  {
+    "characterId": 1,
+    "player": {"playerId" : 2},
+    "name": "Ug",
+    "race": "Orc",
+    "age": "18",
+    "level": "1",
+    "experiencePoints": 100,
+    "hitPoints": 15,
+    "classes": []
+  }
+]
+    

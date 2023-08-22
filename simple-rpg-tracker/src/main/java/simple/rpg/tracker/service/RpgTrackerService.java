@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import simple.rpg.tracker.controller.model.PlayCharacterData;
 import simple.rpg.tracker.controller.model.PlayerData;
+import simple.rpg.tracker.dao.PlayCharacterDao;
 import simple.rpg.tracker.dao.PlayerDao;
+import simple.rpg.tracker.entity.PlayCharacter;
 import simple.rpg.tracker.entity.Player;
 
 @Service
@@ -54,6 +57,17 @@ public class RpgTrackerService {
 	public void deletePlayer(Long playerId) {
 		Player player = findPlayerById(playerId);
 		playerDao.delete(player);
+	}
+	
+	@Autowired
+	private PlayCharacterDao playCharacterDao;
+
+	@Transactional(readOnly = false)
+	public PlayCharacterData saveCharacter(PlayCharacterData playCharacterData) {
+		PlayCharacter playCharacter = playCharacterData.toPlayCharacter();
+		PlayCharacter dbCharacter = playCharacterDao.save(playCharacter);
+		
+		return new PlayCharacterData(dbCharacter);
 	}
 
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
+import simple.rpg.tracker.controller.model.PlayCharacterData;
 import simple.rpg.tracker.controller.model.PlayerData;
 import simple.rpg.tracker.service.RpgTrackerService;
 
@@ -64,5 +65,12 @@ public class RpgTrackerController {
 	public void deleteAllPlayers() {
 		log.info("Attempting to delete all players");
 		throw new UnsupportedOperationException("Deleting all players is not allowed.");
+	}
+	
+	@PostMapping("/character")
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public PlayCharacterData createPlayCharacter(@RequestBody PlayCharacterData playCharacterData) {
+		log.info("Creating character {}", playCharacterData);
+		return rpgTrackerService.saveCharacter(playCharacterData);
 	}
 }
