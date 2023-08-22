@@ -50,4 +50,10 @@ public class RpgTrackerService {
 		return playerDtos;
 	}
 
+	@Transactional(readOnly = false)
+	public void deletePlayer(Long playerId) {
+		Player player = findPlayerById(playerId);
+		playerDao.delete(player);
+	}
+
 }

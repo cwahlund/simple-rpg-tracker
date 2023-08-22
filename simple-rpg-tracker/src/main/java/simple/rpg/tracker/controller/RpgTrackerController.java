@@ -1,12 +1,15 @@
 package simple.rpg.tracker.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -30,6 +33,13 @@ public class RpgTrackerController {
 		return rpgTrackerService.savePlayer(playerData);
 	}
 	
+	@PutMapping("/player/{playerId}")
+	public PlayerData updatePlayer(@PathVariable Long playerId, @RequestBody PlayerData playerData) {
+		playerData.setPlayerId(playerId);
+		log.info("Updating player {}", playerId);
+		return rpgTrackerService.savePlayer(playerData);
+	}
+	
 	@GetMapping("/player/{playerId}")
 	public PlayerData retrievePlayerById(@PathVariable Long playerId) {
 		log.info("Retrieving player with ID={}", playerId);
@@ -40,5 +50,19 @@ public class RpgTrackerController {
 	public List<PlayerData> retrieveAllPlayers() {
 		log.info("Retrieving all players");
 		return rpgTrackerService.retrieveAllPlayers();
+	}
+	
+	@DeleteMapping("/player/{playerId}")
+	public Map<String, String> deletePlayer(@PathVariable Long playerId){
+		log.info("Deleting player with ID=" + playerId + ".");
+		rpgTrackerService.deletePlayer(playerId);
+		
+		return Map.of("message", "Player with ID=" + playerId + " was deleted successfully.");
+	}
+	
+	@DeleteMapping("/player")
+	public void deleteAllPlayers() {
+		log.info("Attempting to delete all players");
+		throw new UnsupportedOperationException("Deleting all players is not allowed.");
 	}
 }
