@@ -65,6 +65,10 @@ public class RpgTrackerService {
 	@Transactional(readOnly = false)
 	public PlayCharacterData saveCharacter(PlayCharacterData playCharacterData) {
 		PlayCharacter playCharacter = playCharacterData.toPlayCharacter();
+		Player player = findPlayerById(playCharacter.getPlayer().getPlayerId());
+		
+		playCharacter.setPlayer(player);
+		
 		PlayCharacter dbCharacter = playCharacterDao.save(playCharacter);
 		
 		return new PlayCharacterData(dbCharacter);

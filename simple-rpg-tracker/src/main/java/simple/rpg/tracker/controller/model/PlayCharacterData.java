@@ -14,6 +14,7 @@ import simple.rpg.tracker.entity.Player;
 public class PlayCharacterData {
 	private Long characterId;
 	
+	private Long playerId;
 	private String name;
 	private String race;
 	private int age;
@@ -27,7 +28,8 @@ public class PlayCharacterData {
 	
 	public PlayCharacterData (PlayCharacter character) {
 		this.characterId = character.getCharacterId();
-		this.player = character.getPlayer();
+		//this.playerId = character.getPlayerId();
+		//this.player = character.getPlayerFromId(playerId);
 		this.name = character.getName();
 		this.race = character.getRace();
 		this.age = character.getAge();
@@ -58,4 +60,8 @@ public class PlayCharacterData {
 		
 		return character;
 	}
+	
+//	private Player getPlayerFromId(Long playerId) {
+//		Player player = 
+//	}
 }

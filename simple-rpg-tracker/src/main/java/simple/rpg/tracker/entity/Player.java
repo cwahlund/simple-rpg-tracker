@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
@@ -18,9 +19,13 @@ public class Player {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long playerId;
 	
+	@EqualsAndHashCode.Exclude
 	private String firstName;
+	@EqualsAndHashCode.Exclude
 	private String lastName;
+	@EqualsAndHashCode.Exclude
 	private String phone;
+	@EqualsAndHashCode.Exclude
 	private String email;
 	
 	@OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -73,4 +73,11 @@ public class RpgTrackerController {
 		log.info("Creating character {}", playCharacterData);
 		return rpgTrackerService.saveCharacter(playCharacterData);
 	}
+	
+	@PutMapping("/character/{characterId}")
+	public PlayCharacterData updateCharacter(@PathVariable Long characterId, @RequestBody PlayCharacterData playCharacterData) {
+		playCharacterData.setCharacterId(characterId);
+		log.info("Updating character {}", characterId);
+		return rpgTrackerService.saveCharacter(playCharacterData);
+	}
 }
