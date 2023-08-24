@@ -7,7 +7,7 @@ import simple.rpg.tracker.entity.Classes;
 @Data
 @NoArgsConstructor
 public class ClassesData {
-	private Long classesId;
+	private Long classId;
 	
 	private String name;
 	private String weapons;
@@ -15,7 +15,7 @@ public class ClassesData {
 	private String magic;
 
 	public ClassesData(Classes classes) {
-		this.classesId = classes.getClassesId();
+		this.classId = classes.getClassId();
 		this.name = classes.getName();
 		this.weapons = classes.getWeapons();
 		this.abilities = classes.getAbilities();
@@ -25,7 +25,7 @@ public class ClassesData {
 	public Classes toClasses() {
 		Classes classes = new Classes();
 		
-		classes.setClassesId(classesId);
+		classes.setClassId(classId);
 		classes.setName(name);
 		classes.setWeapons(weapons);
 		classes.setAbilities(abilities);

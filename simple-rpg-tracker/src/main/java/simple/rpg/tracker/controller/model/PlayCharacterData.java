@@ -61,7 +61,4 @@ public class PlayCharacterData {
 		return character;
 	}
 	
-//	private Player getPlayerFromId(Long playerId) {
-//		Player player = 
-//	}
 }

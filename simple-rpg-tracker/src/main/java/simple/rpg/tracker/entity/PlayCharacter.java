@@ -23,17 +23,11 @@ public class PlayCharacter {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long characterId;
 	
-	@EqualsAndHashCode.Exclude
 	private String name;
-	@EqualsAndHashCode.Exclude
 	private String race;
-	@EqualsAndHashCode.Exclude
 	private int age;
-	@EqualsAndHashCode.Exclude
 	private int level;
-	@EqualsAndHashCode.Exclude
 	private Long experiencePoints;
-	@EqualsAndHashCode.Exclude
 	private int hitPoints;
 	
 	@EqualsAndHashCode.Exclude
