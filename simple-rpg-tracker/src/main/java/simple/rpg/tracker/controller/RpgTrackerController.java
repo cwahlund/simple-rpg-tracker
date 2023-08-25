@@ -80,4 +80,16 @@ public class RpgTrackerController {
 		log.info("Updating character {}", characterId);
 		return rpgTrackerService.saveCharacter(playCharacterData);
 	}
+	
+	@GetMapping("/character/{characterId}")
+	public PlayCharacterData retrieveCharacterById(@PathVariable Long characterId) {
+		log.info("Retrieving character with ID={}", characterId);
+		return rpgTrackerService.retrieveCharacterById(characterId);
+	}
+	
+	@GetMapping("/character")
+	public List<PlayCharacterData> retrieveAllCharacters() {
+		log.info("Retrieving all characters");
+		return rpgTrackerService.retrieveAllCharacters();
+	}
 }

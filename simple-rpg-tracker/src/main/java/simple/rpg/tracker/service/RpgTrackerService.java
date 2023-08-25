@@ -74,4 +74,28 @@ public class RpgTrackerService {
 		return new PlayCharacterData(dbCharacter);
 	}
 
+	@Transactional(readOnly = true)
+	public PlayCharacterData retrieveCharacterById(Long characterId) {
+		PlayCharacter character = findCharacterById(characterId);
+		return new PlayCharacterData(character);
+	}
+	
+	public PlayCharacter findCharacterById(Long characterId) {
+		return playCharacterDao.findById(characterId)
+				.orElseThrow(() -> new NoSuchElementException("Character with ID=" + characterId + " does not exist."));
+	}
+
+	@Transactional(readOnly = true)
+	public List<PlayCharacterData> retrieveAllCharacters() {
+		List<PlayCharacter> characterEntities = playCharacterDao.findAll();
+		List<PlayCharacterData> characterDtos = new LinkedList<>();
+		
+		for (PlayCharacter character : characterEntities) {
+			PlayCharacterData playerData = new PlayCharacterData(character);
+			characterDtos.add(playerData);
+		}
+		
+		return characterDtos;
+	}
+
 }
