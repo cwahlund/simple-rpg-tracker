@@ -8,12 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import simple.rpg.tracker.controller.model.ClassesData;
 import simple.rpg.tracker.controller.model.PlayCharacterData;
 import simple.rpg.tracker.controller.model.PlayerData;
+import simple.rpg.tracker.dao.ClassesDao;
 import simple.rpg.tracker.dao.PlayCharacterDao;
 import simple.rpg.tracker.dao.PlayerDao;
 import simple.rpg.tracker.entity.PlayCharacter;
 import simple.rpg.tracker.entity.Player;
+import simple.rpg.tracker.entity.Classes;
 
 @Service
 public class RpgTrackerService {
@@ -98,4 +101,32 @@ public class RpgTrackerService {
 		return characterDtos;
 	}
 
+	
+	// Classes will be core rule data and therefore read only access will be given to users
+	@Autowired
+	private ClassesDao classesDao;
+	
+	@Transactional(readOnly = true)
+	public ClassesData retrieveClassById(Long classId) {
+		Classes classes = findClassById(classId);
+		return new ClassesData(classes);
+	}
+	
+	public Classes findClassById(Long classId) {
+		return classesDao.findById(classId)
+				.orElseThrow(() -> new NoSuchElementException("Class with ID=" + classId + " does not exist."));
+	}
+
+	@Transactional(readOnly = true)
+	public List<ClassesData> retrieveAllClasses() {
+		List<Classes> classEntities = classesDao.findAll();
+		List<ClassesData> classDtos = new LinkedList<>();
+		
+		for (Classes classes : classEntities) {
+			ClassesData classData = new ClassesData(classes);
+			classDtos.add(classData);
+		}
+		
+		return classDtos;
+	}
 }

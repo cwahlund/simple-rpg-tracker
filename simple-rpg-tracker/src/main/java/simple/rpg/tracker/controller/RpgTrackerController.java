@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
+import simple.rpg.tracker.controller.model.ClassesData;
 import simple.rpg.tracker.controller.model.PlayCharacterData;
 import simple.rpg.tracker.controller.model.PlayerData;
 import simple.rpg.tracker.service.RpgTrackerService;
@@ -91,5 +92,20 @@ public class RpgTrackerController {
 	public List<PlayCharacterData> retrieveAllCharacters() {
 		log.info("Retrieving all characters");
 		return rpgTrackerService.retrieveAllCharacters();
+	}
+	
+	// There will only be get read only methods for classes data as this is core rule information
+	// and should not be end user modifiable
+	
+	@GetMapping("/classes/{classId}")
+	public ClassesData retrieveClassById(@PathVariable Long classId) {
+		log.info("Retrieving class with ID={}", classId);
+		return rpgTrackerService.retrieveClassById(classId);
+	}
+	
+	@GetMapping("/classes")
+	public List<ClassesData> retrieveAllClasses() {
+		log.info("Retrieving all classes");
+		return rpgTrackerService.retrieveAllClasses();
 	}
 }
