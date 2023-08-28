@@ -100,6 +100,12 @@ public class RpgTrackerService {
 		
 		return characterDtos;
 	}
+	
+	@Transactional(readOnly = false)
+	public void deleteCharacter(Long characterId) {
+		PlayCharacter character = findCharacterById(characterId);
+		playCharacterDao.delete(character);
+	}
 
 	
 	// Classes will be core rule data and therefore read only access will be given to users

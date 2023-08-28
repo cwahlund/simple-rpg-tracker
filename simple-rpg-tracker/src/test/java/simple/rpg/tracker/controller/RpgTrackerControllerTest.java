@@ -48,14 +48,43 @@ class RpgTrackerControllerTest extends RpgTrackerTestSupport {
 	}
 	
 	@Test
-	void testRetrieveAllLocations() {
-		// Given: Two locations
-		List<PlayerData> expected = insertTwoLocations();
+	void testRetrieveAllPlayers() {
+		// Given: Two players
+		List<PlayerData> expected = insertTwoPlayers();
 		
-		// When: all locations are retrieved
-		List<PlayerData> actual = retrieveAllLocations();
+		// When: all players are retrieved
+		List<PlayerData> actual = retrieveAllPlayers();
 		
-		// Then: the retrieved locations are the same as expected.
+		// Then: the retrieved players are the same as expected.
 		assertThat(actual).isEqualTo(expected);
+	}
+	
+	@Test
+	void testUpdatePlayer() {
+		// Given: A player and an update request
+		insertPlayer(buildInsertPlayer(1));
+		PlayerData expected = buildUpdatePlayer();
+		
+		// When: the player is updated
+		PlayerData actual = updatePlayer(expected);
+		
+		// Then: the player is returned as expected
+		assertThat(actual).isEqualTo(expected);
+		
+		// And: there is one row in the player table.
+		assertThat(rowsInPlayerTable()).isOne();
+	}
+
+	@Test
+	void testDeletePlayer() {
+		// Given: There is one player
+		PlayerData player = insertPlayer(buildInsertPlayer(1));
+		Long playerId = player.getPlayerId();
+		
+		// When: you delete the player
+		deletePlayer(playerId);
+		
+		// Then: there are no player rows.
+		assertThat(rowsInPlayerTable()).isZero();
 	}
 }

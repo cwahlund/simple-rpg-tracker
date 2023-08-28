@@ -15,11 +15,11 @@ public class RpgTrackerTestSupport {
 
 	// @formatter:off
 	private PlayerData insertPlayer1 = new PlayerData(
-		1L,
-		"Cosmo",
-		"Spacely",
-		"555-555-5555",
-		"spacely@test.com"
+			1L,
+			"Cosmo",
+			"Spacely",
+			"555-555-5555",
+			"spacely@test.com"
 	);
 	
 	private PlayerData insertPlayer2 = new PlayerData(
@@ -28,7 +28,15 @@ public class RpgTrackerTestSupport {
 			"Cogswell",
 			"555-555-1212",
 			"cogswell@test.com"
-		);
+	);
+	
+	private PlayerData updatePlayer1 = new PlayerData(
+			1L,
+			"George",
+			"Jetson",
+			"555-212-1212",
+			"gjetson@test.com"
+	);
 	// @formatter:on
 	
 	@Autowired
@@ -58,14 +66,26 @@ public class RpgTrackerTestSupport {
 		return rpgTrackerController.retrievePlayerById(playerId);
 	}
 	
-	protected List<PlayerData> retrieveAllLocations() {
+	protected List<PlayerData> retrieveAllPlayers() {
 		return rpgTrackerController.retrieveAllPlayers();
 	}
 
-	protected List<PlayerData> insertTwoLocations() {
+	protected List<PlayerData> insertTwoPlayers() {
 		PlayerData player1 = insertPlayer(buildInsertPlayer(1));
 		PlayerData player2 = insertPlayer(buildInsertPlayer(2));
 		
 		return List.of(player1, player2);
+	}	
+
+	protected PlayerData buildUpdatePlayer() {
+		return updatePlayer1;
+	}
+	
+	protected PlayerData updatePlayer(PlayerData playerData) {
+		return rpgTrackerController.updatePlayer(playerData.getPlayerId(), playerData);
+	}
+	
+	protected void deletePlayer(Long playerId) {
+		rpgTrackerController.deletePlayer(playerId);
 	}
 }

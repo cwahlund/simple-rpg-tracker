@@ -94,6 +94,20 @@ public class RpgTrackerController {
 		return rpgTrackerService.retrieveAllCharacters();
 	}
 	
+	@DeleteMapping("/character/{characterId}")
+	public Map<String, String> deleteCharacter(@PathVariable Long characterId){
+		log.info("Deleting character with ID=" + characterId + ".");
+		rpgTrackerService.deleteCharacter(characterId);
+		
+		return Map.of("message", "Character with ID=" + characterId + " was deleted successfully.");
+	}
+	
+	@DeleteMapping("/character")
+	public void deleteAllCharacters() {
+		log.info("Attempting to delete all characters");
+		throw new UnsupportedOperationException("Deleting all characters is not allowed.");
+	}
+	
 	// There will only be get read only methods for classes data as this is core rule information
 	// and should not be end user modifiable
 	
