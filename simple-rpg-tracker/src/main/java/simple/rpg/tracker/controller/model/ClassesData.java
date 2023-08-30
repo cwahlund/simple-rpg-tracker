@@ -33,4 +33,12 @@ public class ClassesData {
 		
 		return classes;
 	}
+
+	public ClassesData(long classId, String name, String weapons, String abilities, String magic) {
+		this.classId = classId;
+		this.name = name;
+		this.weapons = weapons;
+		this.abilities = abilities;
+		this.magic = magic;
+	}
 }

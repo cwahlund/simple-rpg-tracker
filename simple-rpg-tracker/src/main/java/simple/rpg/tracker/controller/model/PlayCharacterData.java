@@ -28,8 +28,6 @@ public class PlayCharacterData {
 	
 	public PlayCharacterData (PlayCharacter character) {
 		this.characterId = character.getCharacterId();
-		//this.playerId = character.getPlayerId();
-		//this.player = character.getPlayerFromId(playerId);
 		this.name = character.getName();
 		this.race = character.getRace();
 		this.age = character.getAge();

@@ -11,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
 import simple.rpg.tracker.SimpleRpgTrackerApplication;
+import simple.rpg.tracker.controller.model.ClassesData;
 import simple.rpg.tracker.controller.model.PlayerData;
 
 @SpringBootTest(webEnvironment = WebEnvironment.NONE, classes = SimpleRpgTrackerApplication.class)
@@ -86,5 +87,30 @@ class RpgTrackerControllerTest extends RpgTrackerTestSupport {
 		
 		// Then: there are no player rows.
 		assertThat(rowsInPlayerTable()).isZero();
+	}
+	
+	@Test
+	void testRetrieveClassById() {
+		// Given: A player
+		ClassesData cls = insertClass(buildInsertClass(1));
+		ClassesData expected = buildInsertClass(1);
+		
+		// When: the player is retrieved by player ID
+		ClassesData actual = retrieveClassById(cls.getClassId());
+		
+		// Then: the actual player is equal to the expected player.
+		assertThat(actual).isEqualTo(expected);
+	}
+
+	@Test
+	void testRetrieveAllClasses() {
+		// Given: Two players
+		List<ClassesData> expected = insertTwoClasses();
+		
+		// When: all players are retrieved
+		List<ClassesData> actual = retrieveAllClasses();
+		
+		// Then: the retrieved players are the same as expected.
+		assertThat(actual).isEqualTo(expected);
 	}
 }
