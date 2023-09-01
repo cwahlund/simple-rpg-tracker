@@ -131,4 +131,29 @@ class RpgTrackerControllerTest extends RpgTrackerTestSupport {
 		assertThat(rowsInCharacterTable()).isOne();
 	}
 
+	@Test
+	void testRetrievePlayCharacterById() {
+		// Given: A character exists and
+		insertCharacter(1);
+		PlayCharacterData expected = buildCharacter(1);
+		
+		// When: the character is retrieved by character ID
+		PlayCharacterData actual = retrieveCharacterById(expected.getCharacterId());
+		
+		// Then: the actual character is equal to the expected character.
+		assertThat(actual).isEqualTo(expected);
+	}
+	
+	@Test
+	void testRetrieveAllCharacters() {
+		// Given: Two players exist
+		List<PlayCharacterData> expected = insertTwoCharacters();
+		
+		// When: all players are retrieved
+		List<PlayCharacterData> actual = retrieveAllCharacters();
+		
+		// Then: the retrieved players are the same as expected.
+		assertThat(actual).isEqualTo(expected);
+	}
+	
 }

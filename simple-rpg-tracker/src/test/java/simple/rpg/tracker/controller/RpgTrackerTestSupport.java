@@ -108,7 +108,6 @@ public class RpgTrackerTestSupport {
 		clone.setPlayerId(null);
 		return rpgTrackerController.createPlayer(clone);
 	}
-	
 
 	protected PlayerData retrievePlayerById(Long playerId) {
 		return rpgTrackerController.retrievePlayerById(playerId);
@@ -221,16 +220,49 @@ public class RpgTrackerTestSupport {
 	}
 	
 	protected PlayCharacterData retrieveCharacter(Long which) {
-		PlayCharacterData pcd = rpgTrackerController.retrieveCharacterById(which);
+		PlayCharacterData character = rpgTrackerController.retrieveCharacterById(which);
 		
 		PlayerData playerData = buildInsertPlayer(1);
 		Player player = playerData.toPlayer();
-		pcd.setPlayer(player);
+		character.setPlayer(player);
 		
-		return pcd;
+		return character;
 	}
 	
 	protected int rowsInCharacterTable() {
 		return JdbcTestUtils.countRowsInTable(jdbcTemplate, PLAY_CHARACTER_TABLE);
 	}
+	
+	protected PlayCharacterData retrieveCharacterById(Long characterId) {
+		PlayCharacterData character = rpgTrackerController.retrieveCharacterById(characterId);
+		
+		PlayerData playerData = buildInsertPlayer(1);
+		Player player = playerData.toPlayer();
+		character.setPlayer(player);
+		
+		return character;
+	}
+	
+	protected List<PlayCharacterData> insertTwoCharacters() {
+		insertCharacter(1);
+		insertCharacter(2);
+		PlayCharacterData character1 = buildCharacter(1);
+		PlayCharacterData character2 = buildCharacter(2);
+		
+		return List.of(character1, character2);
+	}
+	
+	protected List<PlayCharacterData> retrieveAllCharacters() {
+		List<PlayCharacterData> characters = rpgTrackerController.retrieveAllCharacters();
+		
+		for (int i = 0; i < characters.size(); i++) {
+			PlayerData playerData = buildInsertPlayer(i + 1);
+			Player player = playerData.toPlayer();
+			PlayCharacterData character = characters.get(i);
+			character.setPlayer(player);
+		}
+		
+		return characters;
+	}
+
 }
