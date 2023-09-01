@@ -8,6 +8,7 @@ This project was created as my final project for the Promineo back end bootcamp 
 ----------
 ### Technologies ###
 - [Java 17](https://www.java.com/en/)
+- [Maven](https://maven.apache.org/)
 - [Java Spring ](https://spring.io/)
 - [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
 - [MySQL](https://www.mysql.com/)
