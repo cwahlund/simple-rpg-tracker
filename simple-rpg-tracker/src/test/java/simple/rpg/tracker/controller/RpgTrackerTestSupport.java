@@ -6,20 +6,46 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
-import simple.rpg.tracker.entity.Player;
-import simple.rpg.tracker.controller.model.PlayerData;
-import simple.rpg.tracker.entity.Classes;
 import simple.rpg.tracker.controller.model.ClassesData;
+import simple.rpg.tracker.controller.model.PlayCharacterData;
+import simple.rpg.tracker.controller.model.PlayerData;
 import simple.rpg.tracker.dao.ClassesDao;
+import simple.rpg.tracker.entity.Classes;
+import simple.rpg.tracker.entity.Player;
 
 public class RpgTrackerTestSupport {
 	
 	private static final String PLAYER_TABLE = "player";
+	private static final String PLAY_CHARACTER_TABLE = "play_character";
 	
 	@Autowired
 	private ClassesDao classesDao;
 
 	// @formatter:off
+	private static final String INSERT_CHARACTER_1_SQL = """
+			INSERT INTO play_character
+			(player_id, name, race, age, level, experience_points, hit_points)
+			VALUES(1, 'Ug', 'Half-Orc', 17, 1, 120, 14)
+			""";
+	
+	private static final String INSERT_CHARACTER_2_SQL = """
+			INSERT INTO play_character
+			(player_id, name, race, age, level, experience_points, hit_points)
+			VALUES(2, 'Bobbo', 'Halfling', 28, 1, 150, 9)
+			""";
+	
+//	private static final String LINK_CLASS1 = """
+//			INSERT INTO play_character_classes
+//			(character_id, class_id)
+//			VALUES (1, 2)
+//			""";
+//	
+//	private static final String LINK_CLASS2 = """
+//			INSERT INTO play_character_classes
+//			(character_id, class_id)
+//			VALUES (2, 1)
+//			""";
+	
 	private PlayerData insertPlayer1 = new PlayerData(
 			1L,
 			"Cosmo",
@@ -138,5 +164,73 @@ public class RpgTrackerTestSupport {
 	
 	protected List<ClassesData> retrieveAllClasses() {
 		return rpgTrackerController.retrieveAllClasses();
+	}
+
+	protected void insertCharacter(int which) {
+		insertPlayer(buildInsertPlayer(1));
+		insertPlayer(buildInsertPlayer(2));
+		String characterSql = which == 1 ? INSERT_CHARACTER_1_SQL : INSERT_CHARACTER_2_SQL;
+		jdbcTemplate.update(characterSql);
+	}
+
+	protected PlayCharacterData buildCharacter(int which) {
+		PlayCharacterData character = new PlayCharacterData();
+		
+		Long characterId;
+		PlayerData playerData;
+		Player player;
+		String name;
+		String race;
+		int age;
+		int level;
+		Long experiencePoints;
+		int hitPoints;
+		
+		if (which == 1) {
+			characterId = 1L;
+			playerData = buildInsertPlayer(1);
+			player = playerData.toPlayer();
+			name = "Ug";
+			race = "Half-Orc";
+			age = 17;
+			level = 1;
+			experiencePoints = 120L;
+			hitPoints = 14;
+		} else {
+			characterId = 2L;
+			playerData = buildInsertPlayer(2);
+			player = playerData.toPlayer();
+			name = "Bobbo";
+			race = "Halfling";
+			age = 28;
+			level = 1;
+			experiencePoints = 150L;
+			hitPoints = 9;
+		}
+		
+		character.setCharacterId(characterId);
+		character.setPlayer(player);
+		character.setName(name);
+		character.setRace(race);
+		character.setAge(age);
+		character.setLevel(level);
+		character.setExperiencePoints(experiencePoints);
+		character.setHitPoints(hitPoints);
+		
+		return character;
+	}
+	
+	protected PlayCharacterData retrieveCharacter(Long which) {
+		PlayCharacterData pcd = rpgTrackerController.retrieveCharacterById(which);
+		
+		PlayerData playerData = buildInsertPlayer(1);
+		Player player = playerData.toPlayer();
+		pcd.setPlayer(player);
+		
+		return pcd;
+	}
+	
+	protected int rowsInCharacterTable() {
+		return JdbcTestUtils.countRowsInTable(jdbcTemplate, PLAY_CHARACTER_TABLE);
 	}
 }

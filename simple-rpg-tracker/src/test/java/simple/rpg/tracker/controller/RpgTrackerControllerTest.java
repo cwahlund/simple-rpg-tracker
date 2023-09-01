@@ -12,6 +12,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import simple.rpg.tracker.SimpleRpgTrackerApplication;
 import simple.rpg.tracker.controller.model.ClassesData;
+import simple.rpg.tracker.controller.model.PlayCharacterData;
 import simple.rpg.tracker.controller.model.PlayerData;
 
 @SpringBootTest(webEnvironment = WebEnvironment.NONE, classes = SimpleRpgTrackerApplication.class)
@@ -21,7 +22,7 @@ class RpgTrackerControllerTest extends RpgTrackerTestSupport {
 
 	@Test
 	void testCreatePlayer() {
-		// Given: A player request
+		// Given: A player request is made
 		PlayerData request = buildInsertPlayer(1);
 		PlayerData expected = buildInsertPlayer(1);
 		
@@ -37,7 +38,7 @@ class RpgTrackerControllerTest extends RpgTrackerTestSupport {
 	
 	@Test
 	void testRetrievePlayerById() {
-		// Given: A player
+		// Given: A player exists and
 		PlayerData player = insertPlayer(buildInsertPlayer(1));
 		PlayerData expected = buildInsertPlayer(1);
 		
@@ -50,7 +51,7 @@ class RpgTrackerControllerTest extends RpgTrackerTestSupport {
 	
 	@Test
 	void testRetrieveAllPlayers() {
-		// Given: Two players
+		// Given: Two players exist
 		List<PlayerData> expected = insertTwoPlayers();
 		
 		// When: all players are retrieved
@@ -91,26 +92,43 @@ class RpgTrackerControllerTest extends RpgTrackerTestSupport {
 	
 	@Test
 	void testRetrieveClassById() {
-		// Given: A player
+		// Given: A class exists
 		ClassesData cls = insertClass(buildInsertClass(1));
 		ClassesData expected = buildInsertClass(1);
 		
-		// When: the player is retrieved by player ID
+		// When: the class is retrieved by player ID
 		ClassesData actual = retrieveClassById(cls.getClassId());
 		
-		// Then: the actual player is equal to the expected player.
+		// Then: the actual class is equal to the expected class.
 		assertThat(actual).isEqualTo(expected);
 	}
 
 	@Test
 	void testRetrieveAllClasses() {
-		// Given: Two players
+		// Given: Two classes exist
 		List<ClassesData> expected = insertTwoClasses();
 		
-		// When: all players are retrieved
+		// When: all classes are retrieved
 		List<ClassesData> actual = retrieveAllClasses();
 		
-		// Then: the retrieved players are the same as expected.
+		// Then: the retrieved classes are the same as expected.
 		assertThat(actual).isEqualTo(expected);
 	}
+	
+	@Test
+	void testCreateCharacter() {
+		// Given: A character can be added
+		insertCharacter(1);
+		PlayCharacterData expected = buildCharacter(1);
+		
+		// When: the character is retrieved from the character table
+		PlayCharacterData actual = retrieveCharacter(1L);
+		
+		// Then: the character returned is the one that is expected
+		assertThat(actual).isEqualTo(expected);
+		
+		// And: there is one row in the character table.
+		assertThat(rowsInCharacterTable()).isOne();
+	}
+
 }
