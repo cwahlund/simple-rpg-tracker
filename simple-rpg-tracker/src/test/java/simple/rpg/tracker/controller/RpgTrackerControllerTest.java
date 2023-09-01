@@ -171,5 +171,19 @@ class RpgTrackerControllerTest extends RpgTrackerTestSupport {
 		// And: there is one row in the character table.
 		assertThat(rowsInCharacterTable()).isOne();
 	}
+	
+	@Test
+	void testDeleteCharacter() {
+		// Given: There is one character
+		insertCharacter(1);
+		PlayCharacterData character = buildCharacter(1);
+		Long characterId = character.getCharacterId();
+		
+		// When: you delete the character
+		deleteCharacter(characterId);
+		
+		// Then: there are no character rows.
+		assertThat(rowsInCharacterTable()).isZero();
+	}
 
 }

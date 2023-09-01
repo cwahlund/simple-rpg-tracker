@@ -327,4 +327,8 @@ public class RpgTrackerTestSupport {
 		return character;
 	}
 
+	protected void deleteCharacter(Long characterId) {
+		rpgTrackerController.deleteCharacter(characterId);
+	}
+	
 }
