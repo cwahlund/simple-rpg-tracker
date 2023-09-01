@@ -26,3 +26,4 @@ All four CRUD operations are active on the players and characters table, as well
 Since this is a final project for the course I will not be able to accept any code modifications at this time.  However, feedback and suggestions will be gracefully accepted.  :)
 
 I can be reached at wahlund@icloud.com for any inquiries.
+[LinkedIn profile.](https://www.linkedin.com/in/collinwahlund/)
