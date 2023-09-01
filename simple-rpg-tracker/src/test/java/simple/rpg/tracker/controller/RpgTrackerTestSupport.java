@@ -34,6 +34,12 @@ public class RpgTrackerTestSupport {
 			VALUES(2, 'Bobbo', 'Halfling', 28, 1, 150, 9)
 			""";
 	
+	private static final String UPDATE_CHARACTER_1_SQL = """
+			UPDATE play_character
+			SET level = 2, experience_points = 350, hit_points = 20
+			WHERE character_id = 1
+			""";
+	
 //	private static final String LINK_CLASS1 = """
 //			INSERT INTO play_character_classes
 //			(character_id, class_id)
@@ -219,6 +225,41 @@ public class RpgTrackerTestSupport {
 		return character;
 	}
 	
+	protected PlayCharacterData buildUpdatedCharacter() {
+		PlayCharacterData character = new PlayCharacterData();
+		
+		Long characterId;
+		PlayerData playerData;
+		Player player;
+		String name;
+		String race;
+		int age;
+		int level;
+		Long experiencePoints;
+		int hitPoints;
+		
+		characterId = 1L;
+		playerData = buildInsertPlayer(1);
+		player = playerData.toPlayer();
+		name = "Ug";
+		race = "Half-Orc";
+		age = 17;
+		level = 2;
+		experiencePoints = 350L;
+		hitPoints = 20;
+		
+		character.setCharacterId(characterId);
+		character.setPlayer(player);
+		character.setName(name);
+		character.setRace(race);
+		character.setAge(age);
+		character.setLevel(level);
+		character.setExperiencePoints(experiencePoints);
+		character.setHitPoints(hitPoints);
+		
+		return character;
+	}
+	
 	protected PlayCharacterData retrieveCharacter(Long which) {
 		PlayCharacterData character = rpgTrackerController.retrieveCharacterById(which);
 		
@@ -263,6 +304,27 @@ public class RpgTrackerTestSupport {
 		}
 		
 		return characters;
+	}
+	
+	protected PlayCharacterData buildUpdateCharacter() {
+		PlayCharacterData updatedCharacter = buildUpdatedCharacter();
+		
+		String characterSql = UPDATE_CHARACTER_1_SQL;
+		jdbcTemplate.update(characterSql);
+		
+		PlayerData playerData = buildInsertPlayer(1);
+		Player player = playerData.toPlayer();
+		updatedCharacter.setPlayer(player);
+		
+		return updatedCharacter;
+	}
+
+	protected PlayCharacterData updateCharacter(PlayCharacterData expected) {
+		PlayCharacterData character = rpgTrackerController.updateCharacter(1L, expected);
+		
+		character.setPlayer(expected.getPlayer());
+		
+		return character;
 	}
 
 }

@@ -156,4 +156,20 @@ class RpgTrackerControllerTest extends RpgTrackerTestSupport {
 		assertThat(actual).isEqualTo(expected);
 	}
 	
+	@Test
+	void testUpdateCharacter() {
+		// Given: A character and an update request
+		insertCharacter(1);
+		PlayCharacterData expected = buildUpdateCharacter();
+		
+		// When: the character is updated
+		PlayCharacterData actual = updateCharacter(expected);
+		
+		// Then: the character is returned as expected
+		assertThat(actual).isEqualTo(expected);
+		
+		// And: there is one row in the character table.
+		assertThat(rowsInCharacterTable()).isOne();
+	}
+
 }
