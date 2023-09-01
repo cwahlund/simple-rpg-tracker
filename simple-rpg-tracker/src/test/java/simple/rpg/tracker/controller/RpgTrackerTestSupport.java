@@ -1,6 +1,7 @@
 package simple.rpg.tracker.controller;
 
 import java.util.List;
+import java.util.function.IntPredicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,6 +18,8 @@ public class RpgTrackerTestSupport {
 	
 	private static final String PLAYER_TABLE = "player";
 	private static final String PLAY_CHARACTER_TABLE = "play_character";
+	private static final String CLASSES_TABLE = "classes";
+	private static final String PLAY_CHARACTER_CLASSES_TABLE = "play_character_classes";
 	
 	@Autowired
 	private ClassesDao classesDao;
@@ -31,7 +34,7 @@ public class RpgTrackerTestSupport {
 	private static final String INSERT_CHARACTER_2_SQL = """
 			INSERT INTO play_character
 			(player_id, name, race, age, level, experience_points, hit_points)
-			VALUES(2, 'Bobbo', 'Halfling', 28, 1, 150, 9)
+			VALUES(1, 'Bobbo', 'Halfling', 28, 1, 150, 9)
 			""";
 	
 	private static final String UPDATE_CHARACTER_1_SQL = """
@@ -40,17 +43,17 @@ public class RpgTrackerTestSupport {
 			WHERE character_id = 1
 			""";
 	
-//	private static final String LINK_CLASS1 = """
-//			INSERT INTO play_character_classes
-//			(character_id, class_id)
-//			VALUES (1, 2)
-//			""";
-//	
-//	private static final String LINK_CLASS2 = """
-//			INSERT INTO play_character_classes
-//			(character_id, class_id)
-//			VALUES (2, 1)
-//			""";
+	private static final String LINK_CLASS1 = """
+			INSERT INTO play_character_classes
+			(character_id, class_id)
+			VALUES (1, 2)
+			""";
+	
+	private static final String LINK_CLASS2 = """
+			INSERT INTO play_character_classes
+			(character_id, class_id)
+			VALUES (2, 1)
+			""";
 	
 	private PlayerData insertPlayer1 = new PlayerData(
 			1L,
@@ -173,7 +176,11 @@ public class RpgTrackerTestSupport {
 
 	protected void insertCharacter(int which) {
 		insertPlayer(buildInsertPlayer(1));
-		insertPlayer(buildInsertPlayer(2));
+		String characterSql = which == 1 ? INSERT_CHARACTER_1_SQL : INSERT_CHARACTER_2_SQL;
+		jdbcTemplate.update(characterSql);
+	}
+	
+	protected void insertCharacterWithExistingPlayer(int which) {
 		String characterSql = which == 1 ? INSERT_CHARACTER_1_SQL : INSERT_CHARACTER_2_SQL;
 		jdbcTemplate.update(characterSql);
 	}
@@ -329,6 +336,21 @@ public class RpgTrackerTestSupport {
 
 	protected void deleteCharacter(Long characterId) {
 		rpgTrackerController.deleteCharacter(characterId);
+	}
+	
+	protected void linkCharacterClass(int which) {
+		buildInsertClass(which);
+		
+		String characterClassesSql = which == 1 ? LINK_CLASS1 : LINK_CLASS2;
+		jdbcTemplate.update(characterClassesSql);
+	}
+	
+	protected int rowsInClassesTable() {
+		return JdbcTestUtils.countRowsInTable(jdbcTemplate, CLASSES_TABLE);
+	}
+
+	protected int rowsInCharacterClassesTable() {
+		return JdbcTestUtils.countRowsInTable(jdbcTemplate, PLAY_CHARACTER_CLASSES_TABLE);
 	}
 	
 }

@@ -3,6 +3,7 @@ package simple.rpg.tracker.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.function.IntPredicate;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -184,6 +185,36 @@ class RpgTrackerControllerTest extends RpgTrackerTestSupport {
 		
 		// Then: there are no character rows.
 		assertThat(rowsInCharacterTable()).isZero();
+	}
+	
+	@Test
+	void testDeletePlayerWithCharacters() {
+		// Given: A player and two characters
+		PlayerData player = insertPlayer(buildInsertPlayer(1));
+		Long playerId = player.getPlayerId();
+		
+		insertCharacterWithExistingPlayer(1);
+		insertCharacterWithExistingPlayer(2);
+		
+		linkCharacterClass(1);
+		linkCharacterClass(2);
+		
+		assertThat(rowsInPlayerTable()).isOne();
+		assertThat(rowsInCharacterTable()).isEqualTo(2);
+		assertThat(rowsInCharacterClassesTable()).isEqualTo(2);
+		int classesRows = rowsInClassesTable();
+		
+		// When: the player is deleted
+		
+		deletePlayer(playerId);
+		
+		// Then: there are no player, play_character, or play_character_classes rows
+		assertThat(rowsInPlayerTable()).isZero();
+		assertThat(rowsInCharacterTable()).isZero();
+		assertThat(rowsInCharacterClassesTable()).isZero();
+		
+		// And: the number of classes rows has not changed.
+		assertThat(rowsInClassesTable()).isEqualTo(classesRows);
 	}
 
 }
