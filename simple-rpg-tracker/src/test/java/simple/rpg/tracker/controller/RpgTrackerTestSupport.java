@@ -1,7 +1,6 @@
 package simple.rpg.tracker.controller;
 
 import java.util.List;
-import java.util.function.IntPredicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
